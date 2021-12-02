@@ -5,11 +5,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class PositionCalc {
@@ -18,7 +16,7 @@ public class PositionCalc {
         PositionCalc main = new PositionCalc();
         List<Command> sampleList = main.loadCommandData("data.txt");
 
-        Position position = new Position(0,0);
+        Position position = new Position(0,0, 0);
 
         // TODO make this not sideeffecting.
         for (Command c : sampleList) {
@@ -64,9 +62,9 @@ public class PositionCalc {
     public record Command(CommandType command, int value) {
         public Position runCommand(Position currentPosition) {
             return switch (command) {
-                case FORWARD-> new Position(currentPosition.depth(), currentPosition.distance() + value);
-                case DOWN -> new Position(currentPosition.depth() + value, currentPosition.distance());
-                case UP -> new Position(currentPosition.depth() > value ? currentPosition.depth() - value : 0, currentPosition.distance());
+                case FORWARD-> new Position(currentPosition.depth() + (currentPosition.aim() * value), currentPosition.distance() + value, currentPosition.aim());
+                case DOWN -> new Position(currentPosition.depth(), currentPosition.distance(), currentPosition.aim() + value);
+                case UP -> new Position(currentPosition.depth(), currentPosition.distance(), currentPosition.aim() - value);
             };
         }
 
@@ -77,7 +75,7 @@ public class PositionCalc {
         }
     }
 
-    public record Position(int depth, int distance) {
+    public record Position(int depth, int distance, int aim) {
 
     }
 
