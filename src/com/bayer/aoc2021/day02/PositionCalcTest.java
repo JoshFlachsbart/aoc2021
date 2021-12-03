@@ -19,11 +19,11 @@ class PositionCalcTest {
     @org.junit.jupiter.api.Test
     void runCommand() {
         try {
-            Assertions.assertEquals(testPositions.get(1), Command.parseCommand("forward 5").runCommand(testPositions.get(0)));
-            Assertions.assertEquals(testPositions.get(2), Command.parseCommand("down 5").runCommand(testPositions.get(1)));
-            Assertions.assertEquals(testPositions.get(3), Command.parseCommand("forward 8").runCommand(testPositions.get(2)));
-            Assertions.assertEquals(testPositions.get(4), Command.parseCommand("up 3").runCommand(testPositions.get(3)));
-            Assertions.assertEquals(testPositions.get(5), Command.parseCommand("forward 2").runCommand(testPositions.get(4)));
+            Assertions.assertEquals(testPositions.get(1), Command.parseCommand( "forward 5" ).runCommand(testPositions.get(0)));
+            Assertions.assertEquals(testPositions.get(2), Command.parseCommand(    "down 5" ).runCommand(testPositions.get(1)));
+            Assertions.assertEquals(testPositions.get(3), Command.parseCommand( "forward 8" ).runCommand(testPositions.get(2)));
+            Assertions.assertEquals(testPositions.get(4), Command.parseCommand(      "up 3" ).runCommand(testPositions.get(3)));
+            Assertions.assertEquals(testPositions.get(5), Command.parseCommand( "forward 2" ).runCommand(testPositions.get(4)));
         } catch (Exception e) {
             Assertions.fail();
         }
