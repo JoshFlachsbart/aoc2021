@@ -44,13 +44,18 @@ public class VentMap {
             int endX = Math.max(p1[X],p2[X]);
             IntStream.rangeClosed(startX, endX).forEach(x -> set(x, p1[Y]));
         } else if (Math.abs(p2[X] - p1[X]) == Math.abs(p2[Y] - p1[Y])) {
-            System.out.format("Skipping diagonal: (%d,%d) -> (%d,%d)\n", p1[X], p1[Y], p2[X], p2[Y]);
+            int xStep = p1[X] < p2[X] ? 1 : -1;
+            int yStep = p1[Y] < p2[Y] ? 1 : -1;
+            for (int x = p1[X], y = p1[Y]; !(p2[X] == x && p2[Y] == y); x += xStep, y += yStep) {
+                set(x,y);
+            }
+            set(p2[X], p2[Y]);
         } else {
             System.out.format("Skipping line: (%d,%d) -> (%d,%d)\n", p1[X], p1[Y], p2[X], p2[Y]);
         }
     }
 
-    private int[] parsePoint (String point ) {
+    private int[] parsePoint ( String point ) {
         String[] pointParts = point.split(",");
         return new int[] {
                 Integer.parseInt(pointParts[X]),
