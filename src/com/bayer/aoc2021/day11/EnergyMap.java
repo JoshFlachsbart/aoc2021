@@ -74,7 +74,7 @@ public class EnergyMap {
     }
 
 
-    public long sim(int steps) {
+    public long simCount(int steps) {
         long flashCount = 0;
         for (int i = 0; i < steps; i++) {
             flashCount += update();
@@ -82,10 +82,25 @@ public class EnergyMap {
         return flashCount;
     }
 
+    public long simFindAll() {
+        long stepCount = 0;
+        long allFlashed = (long) width*height;
+        boolean found = false;
+        while (!found) {
+            stepCount++;
+            found = allFlashed == update();
+            if (stepCount % 100 == 0) System.out.format("Step: %d\n", stepCount);
+        }
+        return stepCount;
+    }
+
     public static void main(String[] args) throws Exception {
         Path dataPath = new Utils().getLocalPath("day11");
         EnergyMap map = new EnergyMap();
         map.loadMap(Files.lines(dataPath).toList());
-        System.out.println(map.sim(100));
+        System.out.println(map.simCount(100));
+
+        map.loadMap(Files.lines(dataPath).toList());
+        System.out.println(map.simFindAll());
     }
 }

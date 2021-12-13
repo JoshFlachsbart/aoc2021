@@ -3,8 +3,6 @@ package com.bayer.aoc2021.day11;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class EnergyMapTest {
     @Test
     void testUpdate() {
@@ -126,7 +124,11 @@ class EnergyMapTest {
 
         EnergyMap m = new EnergyMap();
         m.loadMap(data.lines().toList());
-        Assertions.assertEquals(1656, m.sim(100));
+        Assertions.assertEquals(1656, m.simCount(100));
+
+        m = new EnergyMap();
+        m.loadMap(data.lines().toList());
+        Assertions.assertEquals(195, m.simFindAll());
     }
 
 }
