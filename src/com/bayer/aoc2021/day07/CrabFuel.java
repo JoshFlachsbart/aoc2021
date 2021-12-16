@@ -1,5 +1,7 @@
 package com.bayer.aoc2021.day07;
 
+import com.bayer.aoc2021.Utils;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -58,15 +60,9 @@ public class CrabFuel {
         }
     }
 
-    private Path getLocalPath(String fileName) throws URISyntaxException, IOException {
-        URL file = getClass().getClassLoader().getResource("com/bayer/aoc2021/day07/" + fileName);
-        if (file == null) throw new IOException("Unable to locate file: " + fileName);
-        return Path.of(file.toURI()).toAbsolutePath();
-    }
-
     public static void main(String[] args) throws Exception {
         CrabFuel main = new CrabFuel();
-        String crabString = Files.readString(main.getLocalPath("data.txt"));
+        String crabString = Files.readString(new Utils().getLocalPath("day07"));
         main.loadCrabs(crabString);
         System.out.println(main.findBestPosition(main::calcTotalDists).orElseThrow());
         System.out.println(main.findBestPosition(main::calcTotalDists2).orElseThrow());

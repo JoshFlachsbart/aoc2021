@@ -1,8 +1,9 @@
 package com.bayer.aoc2021.day01;
 
+import com.bayer.aoc2021.Utils;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -11,17 +12,14 @@ import java.util.stream.Collectors;
 public class DepthCalc {
 
     public static void main(String[] args) throws IOException, URISyntaxException {
-        DepthCalc depthCalc = new DepthCalc();
-        List<Integer> allDepthValues = depthCalc.loadDepthData("data.txt");
+        List<Integer> allDepthValues = DepthCalc.loadDepthData();
 
         System.out.println("Increases: " + countDepthIncreases(allDepthValues));
         System.out.println("Windowed Increases: " + countDepthWindowIncreases(allDepthValues, 3));
     }
 
-    private List<Integer> loadDepthData(String fileName) throws IOException, URISyntaxException {
-        URL file = getClass().getClassLoader().getResource("com/bayer/aoc2021/day01/" + fileName);
-        if (file == null) throw new IOException("Unable to locate file: " + fileName);
-        Path absolutePath = Path.of(file.toURI()).toAbsolutePath();
+    private static List<Integer> loadDepthData() throws IOException, URISyntaxException {
+        Path absolutePath = new Utils().getLocalPath("day01");
         return Files.lines(absolutePath)
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());

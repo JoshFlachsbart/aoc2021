@@ -1,10 +1,8 @@
 package com.bayer.aoc2021.day06;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import com.bayer.aoc2021.Utils;
+
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -59,15 +57,9 @@ public class FishSim2 {
         }
     }
 
-    private Path getLocalPath(String fileName) throws URISyntaxException, IOException {
-        URL file = getClass().getClassLoader().getResource("com/bayer/aoc2021/day06/" + fileName);
-        if (file == null) throw new IOException("Unable to locate file: " + fileName);
-        return Path.of(file.toURI()).toAbsolutePath();
-    }
-
     public static void main(String[] args) throws Exception{
         FishSim2 main = new FishSim2();
-        String fishString = Files.readString(main.getLocalPath("data.txt"));
+        String fishString = Files.readString(new Utils().getLocalPath("day06"));
         main.loadFish(fishString);
         System.out.println("After 80 days: " + main.steps(256));
     }

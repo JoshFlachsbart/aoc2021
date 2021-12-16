@@ -1,14 +1,11 @@
 package com.bayer.aoc2021.day08;
 
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.net.URISyntaxException;
-import java.net.URL;
+import com.bayer.aoc2021.Utils;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -118,15 +115,9 @@ public class DigitDecoder {
         }
     }
 
-    private Path getLocalPath(String fileName) throws URISyntaxException, IOException {
-        URL file = getClass().getClassLoader().getResource("com/bayer/aoc2021/day08/" + fileName);
-        if (file == null) throw new IOException("Unable to locate file: " + fileName);
-        return Path.of(file.toURI()).toAbsolutePath();
-    }
-
     public static void main(String[] args) throws Exception {
         DigitDecoder main = new DigitDecoder();
-        Path dataPath = main.getLocalPath("data.txt");
+        Path dataPath = new Utils().getLocalPath("day08");
 
         List<String> digits = Files.lines(dataPath)
                 .map(line -> line.split("\\|")[1].trim())
