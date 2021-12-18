@@ -1,8 +1,11 @@
 package com.bayer.aoc2021.day14;
 
+import com.bayer.aoc2021.Utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,6 +54,7 @@ class PolymerizerTest {
         Assertions.assertEquals(1588, p.runRulesCounts("NNCB", 10));
 
     }
+
     @Test
     void runRules2() {
         Polymerizer p = new Polymerizer();
@@ -60,6 +64,17 @@ class PolymerizerTest {
         Assertions.assertEquals(6, p.runRulesCounts("NBCCNBBBCBHCB", 1));
         Assertions.assertEquals(17, p.runRulesCounts("NBBBCNCCNBBNBNBBCHBHHBCHB", 1));
         Assertions.assertEquals(2188189693529L, p.runRulesCounts("NNCB", 40));
+    }
+
+    @Test
+    void answer() throws Exception {
+        List<String> lines = Files.readAllLines(new Utils().getLocalPath("day14"));
+        String input = lines.remove(0); lines.remove(0);
+        Polymerizer p = new Polymerizer();
+        p.loadRules(lines);
+        String output = p.runRules(input, 10);
+        Assertions.assertEquals(3342, Polymerizer.calcStats(output));
+        Assertions.assertEquals( 3776553567525L, p.runRulesCounts(input, 40));
     }
 
 

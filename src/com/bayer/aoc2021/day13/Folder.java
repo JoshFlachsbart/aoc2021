@@ -44,7 +44,7 @@ public class Folder {
         }
         int maxX = points.stream().max(Comparator.comparingInt(Point::x)).get().x();
         int maxY = points.stream().max(Comparator.comparingInt(Point::y)).get().y();
-        BoundedMatrix folded = new BoundedMatrix(maxX+1, maxY+1);
+        BoundedMatrix<Character> folded = new BoundedMatrix<>(maxX+1, maxY+1, Character.class);
         folded.setAll('.');
         folded.setAll(points, '#');
         System.out.println(folded);

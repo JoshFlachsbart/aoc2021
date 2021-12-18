@@ -67,9 +67,15 @@ public class Polymerizer {
             counts.put(firstChar, counts.getOrDefault(firstChar, 0L) + count);
             counts.put(secondChar, counts.getOrDefault(secondChar, 0L) + count);
         }
+        // remove double of first and last letter!
+        char firstChar = input.charAt(0);
+        char secondChar = input.charAt(input.length() - 1);
+        counts.put(firstChar, counts.getOrDefault(firstChar, 0L) - 1);
+        counts.put(secondChar, counts.getOrDefault(secondChar, 0L) - 1);
         System.out.println(counts);
-        return counts.values().stream().max(Long::compare).get() / 2L -
-                counts.values().stream().min(Long::compare).get() / 2L;
+        long max = counts.values().stream().max(Long::compare).get();
+        long min = counts.values().stream().min(Long::compare).get();
+        return (max / 2L) - (min / 2L);
     }
 
     public static int calcStats(String input) {
