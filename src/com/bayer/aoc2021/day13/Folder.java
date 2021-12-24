@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Folder {
-    public static List<Point> foldPointsY(List<Point> points, int y) {
+    public static List<Point> foldPointsY(List<Point> points, long y) {
         List<Point> foldedPoints = new ArrayList<>();
         for (Point p : points) {
             Point addMe = (p.y() > y) ? new Point(p.x(),  (y*2) - p.y()) : p;
@@ -21,7 +21,7 @@ public class Folder {
         return foldedPoints;
     }
 
-    public static List<Point> foldPointsX(List<Point> points, int x) {
+    public static List<Point> foldPointsX(List<Point> points, long x) {
         List<Point> foldedPoints = new ArrayList<>();
         for (Point p : points) {
             Point addMe = (p.x() > x) ? new Point((x*2) - p.x(), p.y()) : p;
@@ -42,8 +42,8 @@ public class Folder {
                 default -> throw new IllegalArgumentException("Unknown instruction: " + instruction[0]);
             };
         }
-        int maxX = points.stream().max(Comparator.comparingInt(Point::x)).get().x();
-        int maxY = points.stream().max(Comparator.comparingInt(Point::y)).get().y();
+        int maxX = (int) points.stream().max(Comparator.comparingLong(Point::x)).orElseThrow().x();
+        int maxY = (int) points.stream().max(Comparator.comparingLong(Point::y)).orElseThrow().y();
         BoundedMatrix<Character> folded = new BoundedMatrix<>(maxX+1, maxY+1, Character.class);
         folded.setAll('.');
         folded.setAll(points, '#');

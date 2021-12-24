@@ -22,14 +22,14 @@ public class BoundedMatrix<T>  {
 
     public boolean hasPoint(Point p) { return hasPoint( p.x(), p.y() );}
 
-    public boolean hasPoint(int x, int y) { return 0 <= x && x < WIDTH && 0 <= y && y < HEIGHT; }
+    public boolean hasPoint(long x, long y) { return 0 <= x && x < WIDTH && 0 <= y && y < HEIGHT; }
 
     public T get (int x, int y) {
         return matrix[x + (WIDTH * y)];
     }
 
     public Optional<T> boundedGet(Point p) {
-        return boundedGet(p.x(),p.y());
+        return boundedGet((int)p.x(),(int)p.y());
     }
 
     public Optional<T> boundedGet(int x, int y) {
@@ -43,11 +43,11 @@ public class BoundedMatrix<T>  {
     }
 
     public T get (Point p) {
-        return get (p.x(), p.y());
+        return get ((int)p.x(), (int)p.y());
     }
 
     public void set (Point p, T val) {
-        set (p.x(), p.y(), val);
+        set ((int)p.x(), (int)p.y(), val);
     }
 
     public void setAll (List<Point> points, T val) {
