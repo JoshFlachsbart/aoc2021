@@ -1,11 +1,22 @@
 package com.bayer.aoc2021.day18;
 
+import com.bayer.aoc2021.Utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.bayer.aoc2021.day18.SnailFish.findMaxSum;
+import static com.bayer.aoc2021.day18.SnailFish.readLines;
+
 class SnailFishTest {
+    static List<SnailFish.SnailNum> toNums(String lines) {
+        return readLines(lines.lines().collect(Collectors.toList()));
+    }
+
     @Test
     void add() throws Exception {
         SnailFish.SnailNum a = SnailFish.read("[2,3]");
@@ -58,7 +69,7 @@ class SnailFishTest {
     }
 
     @Test
-    void magnitude() throws Exception {
+    void magnitude() {
         SnailFish.SnailNum a = SnailFish.read("[[1,2],[[3,4],5]]");
         Assertions.assertEquals(143, a.magnitude());
         SnailFish.SnailNum b = SnailFish.read("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]");
@@ -92,7 +103,7 @@ class SnailFishTest {
                 [2,2]
                 [3,3]
                 [4,4]""";
-        SnailFish.SnailNum a = SnailFish.sumLines(nums.lines().collect(Collectors.toList()));
+        SnailFish.SnailNum a = SnailFish.sumLines(toNums(nums));
         Assertions.assertTrue(SnailFish.read("[[[[1,1],[2,2]],[3,3]],[4,4]]").equals(a));
 
         nums = """
@@ -101,7 +112,7 @@ class SnailFishTest {
                 [3,3]
                 [4,4]
                 [5,5]""";
-        a = SnailFish.sumLines(nums.lines().collect(Collectors.toList()));
+        a = SnailFish.sumLines(toNums(nums));
         Assertions.assertTrue(SnailFish.read("[[[[3,0],[5,3]],[4,4]],[5,5]]").equals(a));
 
         nums = """
@@ -111,7 +122,7 @@ class SnailFishTest {
                 [4,4]
                 [5,5]
                 [6,6]""";
-        a = SnailFish.sumLines(nums.lines().collect(Collectors.toList()));
+        a = SnailFish.sumLines(toNums(nums));
         Assertions.assertTrue(SnailFish.read("[[[[5,0],[7,4]],[5,5]],[6,6]]").equals(a));
 
         nums = """
@@ -125,7 +136,7 @@ class SnailFishTest {
                 [1,[[[9,3],9],[[9,0],[0,7]]]]
                 [[[5,[7,4]],7],1]
                 [[[[4,2],2],6],[8,7]]""";
-        a = SnailFish.sumLines(nums.lines().collect(Collectors.toList()));
+        a = SnailFish.sumLines(toNums(nums));
         Assertions.assertTrue(SnailFish.read("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]").equals(a));
         Assertions.assertEquals(3488, a.magnitude());
 
@@ -140,10 +151,19 @@ class SnailFishTest {
                 [[9,3],[[9,9],[6,[4,9]]]]
                 [[2,[[7,7],7]],[[5,8],[[9,3],[0,2]]]]
                 [[[[5,2],5],[8,[3,7]]],[[5,[7,5]],[4,4]]]""";
-        a = SnailFish.sumLines(nums.lines().collect(Collectors.toList()));
+        a = SnailFish.sumLines(toNums(nums));
         Assertions.assertTrue(SnailFish.read("[[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]").equals(a));
         Assertions.assertEquals(4140, a.magnitude());
 
+    }
+
+    @Test
+    void answer() throws Exception {
+        Path absolutePath = new Utils().getLocalPath("day18");
+        List<String> lines = Files.readAllLines(absolutePath);
+        List<SnailFish.SnailNum> nums = SnailFish.readLines(lines);
+        Assertions.assertEquals(4111, SnailFish.sumLines(nums).magnitude());
+        Assertions.assertEquals(4917, SnailFish.findMaxSum(lines));
     }
 
 }

@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SnailFish {
     public static class SnailNum {
@@ -15,14 +16,6 @@ public class SnailFish {
         SnailNum leftNum = null;
         SnailNum rightNum = null;
         SnailNum parent = null;
-
-        public boolean hasLeft() {
-            return leftNum != null || leftVal >= 0;
-        }
-
-        public boolean hasRight() {
-            return rightNum != null || rightVal >= 0;
-        }
 
         private void addLeft(int val) throws Exception {
             if (parent != null) parent.addLeftUp(val, this);
@@ -87,7 +80,7 @@ public class SnailFish {
         }
 
         public boolean equals(SnailNum n) {
-            boolean isEqual = false;
+            boolean isEqual;
             if (leftNum != null && n.leftNum != null) isEqual = leftNum.equals(n.leftNum);
             else isEqual = leftVal == n.leftVal;
             if (isEqual) {
@@ -165,25 +158,55 @@ public class SnailFish {
         return sn;
     }
 
-    public static SnailNum read(String input) throws Exception {
+    public static SnailNum read(String input) {
         CharacterIterator i = new StringCharacterIterator(input);
-        return readSingleNum(null, i);
+        SnailNum n = null;
+        try {
+            n = readSingleNum(null, i);
+        } catch (Exception e) {
+            System.err.println("Error reading num: " + e);
+        }
+        return n;
     }
 
-    public static SnailNum sumLines(List<String> lines) throws Exception {
+    public static List<SnailNum> readLines(List<String> lines) {
+        return lines.stream().map(SnailFish::read).collect(Collectors.toList());
+    }
+
+    public static SnailNum sumLines(List<SnailNum> nums) throws Exception {
         SnailNum num = null;
-        for (String line: lines) {
-            if (num == null) num = SnailFish.read(line);
-            else num = num.add(SnailFish.read(line));
+        for (SnailNum currNum: nums) {
+            if (num == null) num = currNum;
+            else num = num.add(currNum);
         }
         return num;
+    }
+
+    public static int findMaxSum(List<String> lines)  throws Exception {
+        int maxVal = 0;
+        for (int a = 0; a < lines.size() - 1; a++) {
+            for (int b = a+1; b < lines.size(); b++) {
+                SnailNum na = read(lines.get(a));
+                SnailNum nb = read(lines.get(b));
+                int mag = na.add(nb).magnitude();
+                if (mag > maxVal) maxVal = mag;
+
+                na = read(lines.get(a));
+                nb = read(lines.get(b));
+                mag = nb.add(na).magnitude();
+                if (mag > maxVal) maxVal = mag;
+            }
+        }
+        return maxVal;
     }
 
     public static void main(String[] args) throws Exception {
         Path absolutePath = new Utils().getLocalPath("day18");
         List<String> lines = Files.readAllLines(absolutePath);
-        SnailNum n = sumLines(lines);
+        List<SnailNum> nums = readLines(lines);
+        SnailNum n = sumLines(nums);
         System.out.println(n);
         System.out.println(n.magnitude());
+        System.out.println(findMaxSum(lines));
     }
 }
