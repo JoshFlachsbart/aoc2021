@@ -1,27 +1,16 @@
 package com.bayer.aoc2021.day03;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import com.bayer.aoc2021.Utils;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class PowerCalc {
-    private static final String DEFAULT_FILE_NAME = "data.txt";
-
-    private Path getLocalPath(String fileName) throws URISyntaxException, IOException {
-        URL file = getClass().getClassLoader().getResource("com/bayer/aoc2021/day03/" + fileName);
-        if (file == null) throw new IOException("Unable to locate file: " + fileName);
-        return Path.of(file.toURI()).toAbsolutePath();
-    }
-
     public static void main(String[] args) throws Exception {
-        PowerCalc main = new PowerCalc();
-        Path absolutePath = main.getLocalPath(args.length > 0 ? args[0] : DEFAULT_FILE_NAME);
+        Path absolutePath = new Utils().getLocalPath("day03");
 
         final PerBitCounter perBitCounter = new PerBitCounter();
         long count = Files.lines(absolutePath)

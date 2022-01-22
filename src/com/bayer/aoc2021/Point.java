@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public record Point(int x, int y) {
+public record Point(long x, long y) {
     public static Point parsePoint(String s) {
         String[] p = s.split(",");
-        return new Point(Integer.parseInt(p[0]), Integer.parseInt(p[1]));
+        return new Point(Long.parseLong(p[0]), Long.parseLong(p[1]));
     }
 
     public static List<Point> loadAllPoints(Iterator<String> pointerator) {

@@ -1,10 +1,10 @@
 package com.bayer.aoc2021.day09;
 
+import com.bayer.aoc2021.Utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,7 +38,7 @@ class LocalMinimumTest {
     @Test
     void dayOne() throws Exception {
         LocalMinimum lm = new LocalMinimum();
-        lm.loadMatrices(Files.readAllLines(lm.getLocalPath("data.txt")));
+        lm.loadMatrices(Files.readAllLines(new Utils().getLocalPath("day09")));
         System.out.println("Score: " + lm.findMinima());
     }
 }

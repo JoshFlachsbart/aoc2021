@@ -1,21 +1,18 @@
 package com.bayer.aoc2021.day02;
 
+import com.bayer.aoc2021.Utils;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class PositionCalc {
-    private static final String DEFAULT_FILE_NAME = "data.txt";
-
     public static void main(String[] args) throws Exception {
         PositionCalc main = new PositionCalc();
-        String fileName = args.length > 0 ? args[0] : DEFAULT_FILE_NAME;
-        List<Command> commandList = main.loadCommandData(fileName);
+        List<Command> commandList = main.loadCommandData();
 
         Position startPosition = new Position(0,0, 0);
 
@@ -46,10 +43,8 @@ public class PositionCalc {
             return commandListRunner(commandList, commandList.next().runCommand(currentPosition));
     }
 
-    private List<Command> loadCommandData(String fileName) throws IOException, URISyntaxException {
-        URL file = getClass().getClassLoader().getResource("com/bayer/aoc2021/day02/" + fileName);
-        if (file == null) throw new IOException("Unable to locate file: " + fileName);
-        Path absolutePath = Path.of(file.toURI()).toAbsolutePath();
+    private List<Command> loadCommandData() throws IOException, URISyntaxException {
+        Path absolutePath = new Utils().getLocalPath("day02");
         return Files.lines(absolutePath)
                 .map(Command::parseCommand)
                 .collect(Collectors.toList());

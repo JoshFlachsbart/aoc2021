@@ -1,17 +1,15 @@
 package com.bayer.aoc2021.day05;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import com.bayer.aoc2021.Utils;
+
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.stream.IntStream;
 
 public class VentMap {
     private static final int X = 0;
     private static final int Y = 1;
-    private int size;
-    private int[] map;
+    private final int size;
+    private final int[] map;
 
     public VentMap(int size) {
         this.size = size;
@@ -70,15 +68,9 @@ public class VentMap {
                 parsePoint(points[1]));
     }
 
-    private Path getLocalPath(String fileName) throws URISyntaxException, IOException {
-        URL file = getClass().getClassLoader().getResource("com/bayer/aoc2021/day05/" + fileName);
-        if (file == null) throw new IOException("Unable to locate file: " + fileName);
-        return Path.of(file.toURI()).toAbsolutePath();
-    }
-
     public static void main(String[] args) throws Exception {
         VentMap main = new VentMap(1000);
-        Files.lines(main.getLocalPath("data.txt"))
+        Files.lines(new Utils().getLocalPath("day05"))
                 .forEach(main::parseAndLoadLine);
         System.out.println(main.countMin(2));
     }

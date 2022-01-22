@@ -1,15 +1,11 @@
 package com.bayer.aoc2021.day09;
 
 
-import com.bayer.aoc2021.day04.BingoBoard;
+import com.bayer.aoc2021.Utils;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
+
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
-import java.util.function.BinaryOperator;
 
 public class LocalMinimum {
     int width = -1;
@@ -80,7 +76,7 @@ public class LocalMinimum {
                 }
             }
         }
-        Collections.sort(basinSizes, Collections.reverseOrder());
+        basinSizes.sort(Collections.reverseOrder());
         long product = basinSizes.get(0) * basinSizes.get(1) * basinSizes.get(2);
         System.out.println("Product of three largest basins: " + product);
         return danger;
@@ -102,15 +98,9 @@ public class LocalMinimum {
                 fillBasin(basinCount, val, x+1, y);
     }
 
-    public Path getLocalPath(String fileName) throws URISyntaxException, IOException {
-        URL file = getClass().getClassLoader().getResource("com/bayer/aoc2021/day09/" + fileName);
-        if (file == null) throw new IOException("Unable to locate file: " + fileName);
-        return Path.of(file.toURI()).toAbsolutePath();
-    }
-
     public static void main(String[] args) throws Exception {
         LocalMinimum main = new LocalMinimum();
-        main.loadMatrices(Files.readAllLines(main.getLocalPath("data.txt")));
+        main.loadMatrices(Files.readAllLines(new Utils().getLocalPath("day09")));
         System.out.println("Score: " + main.findMinima());
     }
 }
