@@ -1,23 +1,20 @@
 package com.bayer.aoc2021.day19;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public record Probe(int x, int y, int z) {
      Probe face(Facing facing) {
         return switch (facing) {
             case X -> this;
-            case NX -> new Probe(-x(), -y(), z());
-            case NY -> new Probe(y(), -x(), z());
+            case NX -> new Probe(-x(), y(), -z());
             case Y -> new Probe(-y(), x(), z());
+            case NY -> new Probe(y(), -x(), z());
             case Z -> new Probe(-z(), y(), x());
             case NZ -> new Probe(z(), y(), -x());
         };
     }
 
+    // Rotate around x.  Need to do this before facing.
     Probe orient(Orient orientation) {
         return switch (orientation) {
             case R0 -> this;
@@ -62,40 +59,24 @@ public record Probe(int x, int y, int z) {
                 z() + originOffset.dZ());
     }
 
-    private final static Map<Probe, List<ProbeOffset>> foundProbesWithOffsets = new HashMap<>();
-
-    public static long compareOffsetLists(List<ProbeOffset> a, List<ProbeOffset> b) {
-        return a.stream().filter(b::contains).count();
-    }
+    private final static List<Probe> foundProbesWithOffsets = new ArrayList<>();
 
     public static int foundProbeCount() {
         return foundProbesWithOffsets.size();
     }
 
-    public static Set<Probe> allFoundProbes() {
-        return foundProbesWithOffsets.keySet();
-    }
-
-    public static List<ProbeOffset> foundProbeOffsets(Probe p) {
-        return foundProbesWithOffsets.get(p);
+    public static List<Probe> allFoundProbes() {
+        return foundProbesWithOffsets;
     }
 
     public static void printFoundProbes() {
-        foundProbesWithOffsets.keySet().forEach(System.out::println);
+        System.out.println("Found " + foundProbeCount() + " probes: ");
+        foundProbesWithOffsets.forEach(System.out::println);
     }
 
     public static void addFoundProbe(Probe absoluteFoundProbe) {
-        if (!foundProbesWithOffsets.containsKey(absoluteFoundProbe)) {
-            // Add probe offset to existing offset lists.
-            Set<Probe> origins = foundProbesWithOffsets.keySet();
-            for (Probe origin: origins) {
-                foundProbesWithOffsets.get(origin).add(absoluteFoundProbe.calcOffset(origin));
-            }
-            // Add found point and calc all offsets.
-            List<Probe.ProbeOffset> offsets = foundProbesWithOffsets.keySet()
-                    .stream().map(p -> p.calcOffset(absoluteFoundProbe))
-                    .collect(Collectors.toList());
-            foundProbesWithOffsets.put(absoluteFoundProbe, offsets);
+        if (!foundProbesWithOffsets.contains(absoluteFoundProbe)) {
+            foundProbesWithOffsets.add(absoluteFoundProbe);
         }
     }
 }

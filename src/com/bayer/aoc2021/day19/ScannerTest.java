@@ -173,6 +173,22 @@ class ScannerTest {
     }
 
     @Test
+    void faceOrientTest() {
+        Probe base = new Probe(1,2,3);
+        Assertions.assertEquals(new Probe(1,2,3), base.orient(Probe.Orient.R0).face(Probe.Facing.X));
+        Assertions.assertEquals(new Probe(1,-3,2), base.orient(Probe.Orient.R1).face(Probe.Facing.X));
+        Assertions.assertEquals(new Probe(1,-2,-3), base.orient(Probe.Orient.R2).face(Probe.Facing.X));
+        Assertions.assertEquals(new Probe(1,3,-2), base.orient(Probe.Orient.R3).face(Probe.Facing.X));
+        Assertions.assertEquals(new Probe(-2,1,3), base.orient(Probe.Orient.R0).face(Probe.Facing.Y));
+        Assertions.assertEquals(new Probe(2,-1,3), base.orient(Probe.Orient.R0).face(Probe.Facing.NY));
+        Assertions.assertEquals(new Probe(-3,2,1), base.orient(Probe.Orient.R0).face(Probe.Facing.Z));
+        Assertions.assertEquals(new Probe(3,2,-1), base.orient(Probe.Orient.R0).face(Probe.Facing.NZ));
+        Assertions.assertEquals(new Probe(-1,2,-3), base.orient(Probe.Orient.R0).face(Probe.Facing.NX));
+        Assertions.assertEquals(new Probe(3,1,2), base.orient(Probe.Orient.R1).face(Probe.Facing.Y));
+        Assertions.assertEquals(new Probe(-2,-1,-3), base.orient(Probe.Orient.R2).face(Probe.Facing.NY));
+    }
+
+    @Test
     void offsetCompareTest() {
         Probe.addFoundProbe(new Probe(1, 2, 3));
         Probe.addFoundProbe(new Probe(2, 1, 4));
@@ -183,7 +199,8 @@ class ScannerTest {
                 new Probe(-3, -1, 4),
                 new Probe(1, -3, -1),
                 new Probe(2, -2, 0));
-        Assertions.assertEquals(3L, Scanner.countOverlapWithOffset(compareFrom, compareFrom.get(0).calcOffset(new Probe(1, 2, 3))));
+        Assertions.assertEquals(3L, Scanner.countOverlapWithOffset(compareFrom,
+                compareFrom.get(0).calcOffset(new Probe(1, 2, 3))));
     }
 
     @Test
@@ -241,36 +258,38 @@ class ScannerTest {
         Scanner scanner4 = Scanner.readScanner(linterator);
 
         scanner0.addProbesAsFound();
-        //scanner0.print();
 
         Assertions.assertTrue(scanner1.findBestMatch());
         Assertions.assertEquals(12, scanner1.bestMatch);
-        scanner1.print();
         Assertions.assertEquals(new Probe.ProbeOffset(68, -1246, -43), scanner1.offset);
         Assertions.assertEquals(Probe.Facing.NX, scanner1.facing);
-        Assertions.assertEquals(Probe.Orient.R2, scanner1.orientation);
+        Assertions.assertEquals(Probe.Orient.R0, scanner1.orientation);
+        scanner1.addProbesAsFound();
 
-        System.out.println("Full list");
-        Probe.printFoundProbes();
+        //Probe.printFoundProbes();
         Assertions.assertTrue(scanner4.findBestMatch());
         Assertions.assertEquals(12, scanner4.bestMatch);
-        scanner4.print();
         Assertions.assertEquals(new Probe.ProbeOffset(-20,-1133,1061), scanner4.offset);
-        //Assertions.assertEquals(Probe.Facing.NX, scanner4.facing);
-        //Assertions.assertEquals(Probe.Orient.R2, scanner4.orientation);
+        Assertions.assertEquals(Probe.Facing.Z, scanner4.facing);
+        Assertions.assertEquals(Probe.Orient.R1, scanner4.orientation);
+        scanner4.addProbesAsFound();
 
         Assertions.assertTrue(scanner2.findBestMatch());
         Assertions.assertEquals(12, scanner2.bestMatch);
         Assertions.assertEquals(new Probe.ProbeOffset(1105,-1205,1229), scanner2.offset);
-        //Assertions.assertEquals(Probe.Facing.NX, scanner1.facing);
-        //Assertions.assertEquals(Probe.Orient.R2, scanner1.orientation);
-        scanner2.print();
+        Assertions.assertEquals(Probe.Facing.NX, scanner2.facing);
+        Assertions.assertEquals(Probe.Orient.R3, scanner2.orientation);
+        scanner2.addProbesAsFound();
 
         Assertions.assertTrue(scanner3.findBestMatch());
         Assertions.assertEquals(12, scanner3.bestMatch);
         Assertions.assertEquals(new Probe.ProbeOffset(-92,-2380,-20), scanner3.offset);
-        //Assertions.assertEquals(Probe.Facing.NX, scanner1.facing);
-        //Assertions.assertEquals(Probe.Orient.R2, scanner1.orientation);
-        scanner3.print();
+        Assertions.assertEquals(Probe.Facing.NX, scanner1.facing);
+        Assertions.assertEquals(Probe.Orient.R0, scanner1.orientation);
+        scanner3.addProbesAsFound();
+
+        Probe.printFoundProbes();
+
+        Assertions.assertEquals(79, Probe.foundProbeCount());
     }
 }
