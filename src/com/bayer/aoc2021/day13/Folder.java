@@ -16,7 +16,7 @@ public class Folder {
         for (Point p : points) {
             Point addMe = (p.y() > y) ? new Point(p.x(),  (y*2) - p.y()) : p;
             if (!foldedPoints.contains(addMe)) foldedPoints.add(addMe);
-            else System.out.println("Point is contained: " + addMe);
+            //else System.out.println("Point is contained: " + addMe);
         }
         return foldedPoints;
     }
@@ -26,7 +26,7 @@ public class Folder {
         for (Point p : points) {
             Point addMe = (p.x() > x) ? new Point((x*2) - p.x(), p.y()) : p;
             if (!foldedPoints.contains(addMe)) foldedPoints.add(addMe);
-            else System.out.println("Point is contained: " + addMe);
+            // else System.out.println("Point is contained: " + addMe);
         }
         return foldedPoints;
     }
@@ -34,6 +34,7 @@ public class Folder {
     public static void main(String[] args) throws Exception {
         Iterator<String> i = Files.lines(new Utils().getLocalPath("day13")).iterator();
         List<Point> points = Point.loadAllPoints(i);
+        boolean first = true;
         while (i.hasNext()) {
             String [] instruction = i.next().split(" ")[2].split("=");
             points = switch (instruction[0]) {
@@ -41,12 +42,16 @@ public class Folder {
                 case "y" -> Folder.foldPointsY(points, Integer.parseInt(instruction[1]));
                 default -> throw new IllegalArgumentException("Unknown instruction: " + instruction[0]);
             };
+            if (first) {
+                first = false;
+                System.out.println(points.size()); // 592
+            }
         }
         int maxX = (int) points.stream().max(Comparator.comparingLong(Point::x)).orElseThrow().x();
         int maxY = (int) points.stream().max(Comparator.comparingLong(Point::y)).orElseThrow().y();
         BoundedMatrix<Character> folded = new BoundedMatrix<>(maxX+1, maxY+1, Character.class);
         folded.setAll('.');
         folded.setAll(points, '#');
-        System.out.println(folded);
+        System.out.println(folded); // JGAJEFKU
     }
 }
