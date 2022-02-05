@@ -61,6 +61,6 @@ public class FishSim2 {
         FishSim2 main = new FishSim2();
         String fishString = Files.readString(new Utils().getLocalPath("day06"));
         main.loadFish(fishString);
-        System.out.println("After 80 days: " + main.steps(256));
+        System.out.println("After 256 days: " + main.steps(256)); // 1757714216975
     }
 }
