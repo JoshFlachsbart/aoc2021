@@ -1,7 +1,10 @@
 package com.bayer.aoc2021.day19;
 
+import com.bayer.aoc2021.Utils;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Scanner {
     public int scannerNumber;
@@ -15,10 +18,6 @@ public class Scanner {
     public Scanner(int scannerNumber) {
         this.scannerNumber = scannerNumber;
         probes = new ArrayList<>();
-    }
-
-    public static List<Probe.ProbeOffset> probeOffsetsFrom(List<Probe> orientedProbes, Probe origin) {
-        return orientedProbes.stream().map(probe -> probe.calcOffset(origin)).toList();
     }
 
     public List<Probe> orientProbes(Probe.Facing facing, Probe.Orient orient) {
@@ -82,8 +81,12 @@ public class Scanner {
         getProbes().forEach(Probe::addFoundProbe);
     }
 
+    public String toString() {
+        return "Scanner: " + scannerNumber + " " + offset + " f: " + facing + " o: " + orientation;
+    }
+
     public void print() {
-        System.out.println("Scanner: " + scannerNumber + " " + offset + " f: " + facing + " o: " + orientation);
+        System.out.println(this);
         getProbes().forEach(System.out::println);
     }
 
@@ -112,9 +115,52 @@ public class Scanner {
         return output;
     }
 
-    public static void main(String[] args) {
-        Map<Probe, List<Probe.ProbeOffset>> offsetsForProbeAsOrigin = new HashMap<>();
-        List<Scanner> scanners;
+    public static boolean DEBUG_ON = false;
 
+    public static void locateAllScanners(List<Scanner> scanners) {
+        while(!scanners.isEmpty()) {
+            for (int i = 0; i < scanners.size(); ) {
+                Scanner scanner = scanners.get(i);
+                if(scanner.findBestMatch()) {
+                    if (DEBUG_ON) System.out.println("Found " + scanner);
+                    scanner.addProbesAsFound();
+                    scanners.remove(i);
+                } else {
+                    i++;
+                }
+            }
+        }
+    }
+
+    public static int findBiggestDist(List<Scanner> scannersForDist)
+    {
+        int biggestDist = 0;
+        for(int i = 0; i < scannersForDist.size()-1; i++) {
+            for (int j = i+1; j < scannersForDist.size(); j++) {
+                int dist = scannersForDist.get(i).offset.manhattan(scannersForDist.get(j).offset);
+                if (dist > biggestDist) biggestDist = dist;
+            }
+        }
+        return biggestDist;
+    }
+
+    public static void main(String[] args) throws Exception {
+        Path absolutePath = new Utils().getLocalPath("day19");
+        Iterator<String> lines = Files.readAllLines(absolutePath).iterator();
+
+        DEBUG_ON = true;
+
+        List<Scanner> scanners = new ArrayList<>();
+        while(lines.hasNext()) {
+            scanners.add(Scanner.readScanner(lines));
+        }
+        List<Scanner> scannersCopy = new ArrayList<>(scanners);
+        System.out.println("Loaded " + scanners.size() + " scanners");
+
+        scanners.remove(0).addProbesAsFound();
+        locateAllScanners(scanners);
+        Probe.printFoundProbes();
+
+        System.out.println("Biggest scanner dist: " + findBiggestDist(scannersCopy));
     }
 }

@@ -1,10 +1,13 @@
 package com.bayer.aoc2021.day19;
 
+import com.bayer.aoc2021.Utils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 class ScannerTest {
     String file = """
@@ -158,9 +161,15 @@ class ScannerTest {
             30,-46,-14
             """;
 
+    @BeforeEach
+    void setup() {
+        Probe.allFoundProbes().clear();
+        Scanner.MIN_MATCH = 12;
+    }
+
     @Test
     void readerTest() throws Exception {
-        Iterator<String> linterator = file.lines().collect(Collectors.toList()).iterator();
+        Iterator<String> linterator = file.lines().toList().iterator();
 
         Scanner scanner0 = Scanner.readScanner(linterator);
         Assertions.assertEquals(0, scanner0.scannerNumber);
@@ -205,7 +214,7 @@ class ScannerTest {
 
     @Test
     void offsetTest() throws Exception {
-        Iterator<String> linterator = file.lines().collect(Collectors.toList()).iterator();
+        Iterator<String> linterator = file.lines().toList().iterator();
 
         Scanner scanner0 = Scanner.readScanner(linterator);
         Scanner scanner1 = Scanner.readScanner(linterator);
@@ -222,7 +231,7 @@ class ScannerTest {
 
     @Test
     void orientTest() throws Exception {
-        Iterator<String> linterator = file.lines().collect(Collectors.toList()).iterator();
+        Iterator<String> linterator = file.lines().toList().iterator();
 
         Scanner scanner0 = Scanner.readScanner(linterator);
 
@@ -248,8 +257,15 @@ class ScannerTest {
     }
 
     @Test
+    void manhattan() {
+        Probe.ProbeOffset p1 = new Probe.ProbeOffset(1105,-1205,1229);
+        Probe.ProbeOffset p2 = new Probe.ProbeOffset(-92,-2380,-20);
+        Assertions.assertEquals(3621, p1.manhattan(p2));
+    }
+
+    @Test
     void bigTest() throws Exception {
-        Iterator<String> linterator = largerFile.lines().collect(Collectors.toList()).iterator();
+        Iterator<String> linterator = largerFile.lines().toList().iterator();
 
         Scanner scanner0 = Scanner.readScanner(linterator);
         Scanner scanner1 = Scanner.readScanner(linterator);
@@ -292,4 +308,24 @@ class ScannerTest {
 
         Assertions.assertEquals(79, Probe.foundProbeCount());
     }
+
+    @Test
+    void answer() throws Exception {
+        Path absolutePath = new Utils().getLocalPath("day19");
+        Iterator<String> lines = Files.readAllLines(absolutePath).iterator();
+
+        List<Scanner> scanners = new ArrayList<>();
+        while(lines.hasNext()) {
+            scanners.add(Scanner.readScanner(lines));
+        }
+        List<Scanner> scannersCopy = new ArrayList<>(scanners);
+        scanners.remove(0).addProbesAsFound();
+
+        Scanner.locateAllScanners(scanners);
+        Probe.printFoundProbes();
+        Assertions.assertEquals(442, Probe.foundProbeCount());
+
+        Assertions.assertEquals(11079, Scanner.findBiggestDist(scannersCopy));
+    }
+
 }

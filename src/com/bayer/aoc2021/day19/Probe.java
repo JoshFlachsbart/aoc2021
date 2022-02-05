@@ -43,6 +43,11 @@ public record Probe(int x, int y, int z) {
     }
 
     public record ProbeOffset(int dX, int dY, int dZ) {
+        public int manhattan(ProbeOffset p2) {
+            return Math.abs(dX() - p2.dX()) +
+                    Math.abs(dY() - p2.dY()) +
+                    Math.abs(dZ() - p2.dZ());
+        }
     }
 
     public ProbeOffset calcOffset(Probe origin) {
