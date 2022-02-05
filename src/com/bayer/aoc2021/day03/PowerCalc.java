@@ -23,7 +23,7 @@ public class PowerCalc {
         System.out.println("Count: " + count);
         System.out.println("Gamma: " + gamma);
         System.out.println("Epsilon: " + epsilon);
-        System.out.println("Power: " + gamma * epsilon);
+        System.out.println("Power: " + gamma * epsilon); // 4160394
 
         List <BinaryNumber> values = Files.lines(absolutePath)
                 .map(BinaryNumber::new)
@@ -32,7 +32,7 @@ public class PowerCalc {
         long C02 = BitFrequencyFilter.filterCO2(values).getVal();
         System.out.println("O2 " +  O2);
         System.out.println("CO2 " +  C02);
-        System.out.println("Life Support: " + O2 * C02);
+        System.out.println("Life Support: " + O2 * C02); // 4125600
     }
 
     public static class BitFrequencyFilter {

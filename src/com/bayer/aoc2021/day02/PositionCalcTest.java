@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import java.util.Arrays;
 import java.util.List;
 import com.bayer.aoc2021.day02.PositionCalc.Position;
+import com.bayer.aoc2021.day02.PositionCalc.AimedPosition;
 import com.bayer.aoc2021.day02.PositionCalc.Command;
 import org.junit.jupiter.api.Test;
 
@@ -29,17 +30,17 @@ class PositionCalcTest {
             Assertions.fail();
         }
     }
-/*    private List<Position> testPositions  = Arrays.asList(
-        new Position(0,0, 0),
-        new Position(0,5, 0),
-        new Position(0,5, 5),
-        new Position(40,13, 5),
-        new Position(40,13, 2),
-        new Position(44,15, 2)
-    );
 
     @org.junit.jupiter.api.Test
     void runCommand() {
+        List<AimedPosition> testPositions  = Arrays.asList(
+                new AimedPosition(0,0, 0),
+                new AimedPosition(0,5, 0),
+                new AimedPosition(0,5, 5),
+                new AimedPosition(40,13, 5),
+                new AimedPosition(40,13, 2),
+                new AimedPosition(44,15, 2)
+        );
         try {
             Assertions.assertEquals(testPositions.get(1), Command.parseCommand( "forward 5" ).runCommand(testPositions.get(0)));
             Assertions.assertEquals(testPositions.get(2), Command.parseCommand(    "down 5" ).runCommand(testPositions.get(1)));
@@ -49,7 +50,7 @@ class PositionCalcTest {
         } catch (Exception e) {
             Assertions.fail();
         }
-    }*/
+    }
 
     @Test
     void answer() throws Exception {
