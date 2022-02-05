@@ -22,6 +22,8 @@ public class BingoGame {
         for (int draw: numbers) {
             main.boards.removeAll(main.checkForWinner(draw));
         }
+        // First winner: 41503.
+        // Last winner: 3178.
         System.out.println("Boards left " + main.boards.size());
 
     }
