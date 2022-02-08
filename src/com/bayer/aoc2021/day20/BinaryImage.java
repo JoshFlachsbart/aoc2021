@@ -102,12 +102,15 @@ public class BinaryImage {
         return image;
     }
 
-    public static long run() throws Exception {
+    public static long run(int iterations) throws Exception {
         Path p = new Utils().getLocalPath("day20");
         List<String> lines = Files.lines(p).toList();
         boolean[] commandSet = readCommandLine(lines.get(0));
         List<String> imageLines = lines.subList(2, lines.size());
         BinaryImage image = BinaryImage.loadImage(imageLines);
-        return image.sharpen(commandSet).sharpen(commandSet).countLit();
+        for (int i = 0; i < iterations; i++) {
+            image = image.sharpen(commandSet);
+        }
+        return image.countLit();
     }
 }
