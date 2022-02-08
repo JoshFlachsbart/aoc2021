@@ -65,6 +65,6 @@ class BinaryImageTest {
     @Test
     void answer() throws Exception {
         Assertions.assertEquals(5347, BinaryImage.run(2));
-        System.out.println(BinaryImage.run(50));
+        Assertions.assertEquals(17172, BinaryImage.run(50));
     }
 }
