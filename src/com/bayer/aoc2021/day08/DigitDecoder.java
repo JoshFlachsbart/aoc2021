@@ -125,7 +125,7 @@ public class DigitDecoder {
                 .flatMap(Stream::of)
                 .collect(Collectors.toList());
 
-        System.out.println("All easy digits in answer: " + main.letterCounter(digits));
+        System.out.println("All easy digits in answer: " + main.letterCounter(digits)); // 383
 
         List<String> allLines = Files.readAllLines(dataPath);
         long sum = 0;
@@ -137,9 +137,8 @@ public class DigitDecoder {
                 val *= 10;
                 val += main.get(digit);
             }
-            System.out.println(val);
             sum += val;
         }
-        System.out.println(sum);
+        System.out.println("All digits sum: " + sum); // 998900
     }
 }

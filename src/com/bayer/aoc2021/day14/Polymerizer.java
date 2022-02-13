@@ -93,9 +93,9 @@ public class Polymerizer {
         String input = lines.remove(0); lines.remove(0);
         Polymerizer p = new Polymerizer();
         p.loadRules(lines);
-        String output = p.runRules(input, 10);
+        String output = p.runRules(input, 10); // 3213
         System.out.println(calcStats(output));
-        System.out.println(p.runRulesCounts(input, 40));
-
+        System.out.println(p.runRulesCounts(input, 40)); // 3711743744429
+// TODO Off by 1 ... wut?
     }
 }

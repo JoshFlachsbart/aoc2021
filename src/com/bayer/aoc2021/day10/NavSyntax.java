@@ -93,7 +93,7 @@ public class NavSyntax {
                 .map(NavSyntax::getErrorVal)
                 .reduce(Long::sum).orElseThrow();
 
-        System.out.println(errorSum);
+        System.out.println(errorSum); // 339411
 
         List<Long> scores = Files.lines(dataPath)
                 .filter(line -> NavSyntax.findError(line).isEmpty())
@@ -101,6 +101,6 @@ public class NavSyntax {
                 .map(NavSyntax::getAutocompleteVal)
                 .sorted()
                 .collect(Collectors.toList());
-        System.out.println(scores.get(scores.size() / 2));
+        System.out.println(scores.get(scores.size() / 2)); // 2289754624
     }
 }

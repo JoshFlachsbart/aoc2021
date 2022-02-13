@@ -78,7 +78,7 @@ public class LocalMinimum {
         }
         basinSizes.sort(Collections.reverseOrder());
         long product = basinSizes.get(0) * basinSizes.get(1) * basinSizes.get(2);
-        System.out.println("Product of three largest basins: " + product);
+        System.out.println("Product of three largest basins: " + product); // 1038240
         return danger;
     }
 
@@ -101,6 +101,6 @@ public class LocalMinimum {
     public static void main(String[] args) throws Exception {
         LocalMinimum main = new LocalMinimum();
         main.loadMatrices(Files.readAllLines(new Utils().getLocalPath("day09")));
-        System.out.println("Score: " + main.findMinima());
+        System.out.println("Score: " + main.findMinima()); // 564
     }
 }

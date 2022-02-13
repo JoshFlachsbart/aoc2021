@@ -73,8 +73,8 @@ class PolymerizerTest {
         Polymerizer p = new Polymerizer();
         p.loadRules(lines);
         String output = p.runRules(input, 10);
-        Assertions.assertEquals(3342, Polymerizer.calcStats(output));
-        Assertions.assertEquals( 3776553567525L, p.runRulesCounts(input, 40));
+        Assertions.assertEquals(3213, Polymerizer.calcStats(output));
+        Assertions.assertEquals( 3711743744429L, p.runRulesCounts(input, 40));
     }
 
 

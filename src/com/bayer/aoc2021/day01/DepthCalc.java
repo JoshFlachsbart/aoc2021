@@ -18,7 +18,7 @@ public class DepthCalc {
         System.out.println("Windowed Increases: " + countDepthWindowIncreases(allDepthValues, 3));
     }
 
-    private static List<Integer> loadDepthData() throws IOException, URISyntaxException {
+    public static List<Integer> loadDepthData() throws IOException, URISyntaxException {
         Path absolutePath = new Utils().getLocalPath("day01");
         return Files.lines(absolutePath)
                 .map(Integer::parseInt)

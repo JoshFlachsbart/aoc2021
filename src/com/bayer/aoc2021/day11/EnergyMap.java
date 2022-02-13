@@ -98,9 +98,9 @@ public class EnergyMap {
         Path dataPath = new Utils().getLocalPath("day11");
         EnergyMap map = new EnergyMap();
         map.loadMap(Files.lines(dataPath).toList());
-        System.out.println(map.simCount(100));
+        System.out.println(map.simCount(100)); // 1717
 
         map.loadMap(Files.lines(dataPath).toList());
-        System.out.println(map.simFindAll());
+        System.out.println(map.simFindAll()); // 476
     }
 }

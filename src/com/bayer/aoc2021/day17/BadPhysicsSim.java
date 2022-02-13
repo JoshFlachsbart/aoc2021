@@ -12,9 +12,8 @@ import java.util.Optional;
 public class BadPhysicsSim {
     public record Target(Point topLeft, Point bottomRight) {
         public boolean contains(Point p) {
-            boolean contains = topLeft.x() <= p.x() && p.x() <= bottomRight.x()
+            return topLeft.x() <= p.x() && p.x() <= bottomRight.x()
                     && topLeft.y() >= p.y() && p.y() >= bottomRight.y();
-            return contains;
         }
     }
 
@@ -88,7 +87,7 @@ public class BadPhysicsSim {
     }
 
     public static long maxYPart1 (Target t) {
-        long n = -t.bottomRight.y() - 1;
+        long n = -t.bottomRight.y();
         return (n * (n - 1)) / 2;
     }
 
@@ -97,7 +96,7 @@ public class BadPhysicsSim {
         return BadPhysicsSim.decodeInput(Files.readString(p));
     }
 
-    public static Map<Point, Long>  run(Target t, long miny, long maxy) throws Exception {
+    public static Map<Point, Long>  run(Target t, long miny, long maxy) {
         long minx = findMinXVelocity(t);
         long maxx = findMaxXVelocity(t);
         System.out.format("Min x: %d, Max x: %d, Min y: %d, Max y: %d\n", minx, maxx, miny, maxy);

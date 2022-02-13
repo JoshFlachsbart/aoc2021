@@ -193,10 +193,10 @@ public class PathRisk {
     public static void main(String[] args) throws Exception {
         PathRisk pr = new PathRisk();
         pr.fill(Files.readAllLines(new Utils().getLocalPath("day15")));
-        System.out.println(pr.buildPathScores());
+        System.out.println(pr.buildPathScores()); // 523
 
         PathRisk pr2 = new PathRisk();
         pr2.überFill(pr);
-        System.out.println(pr2.buildPathScoresFULLDIJKSTRA());
+        System.out.println(pr2.buildPathScoresFULLDIJKSTRA()); // 2876
     }
 }

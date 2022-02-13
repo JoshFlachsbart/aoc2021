@@ -96,10 +96,10 @@ public class NodeMap {
         Path dataPath = new Utils().getLocalPath("day12");
         NodeMap map = new NodeMap();
         map.addEdges(Files.lines(dataPath).toList());
-        System.out.println(map.countPaths());
+        System.out.println(map.countPaths()); // 3563
 
         map = new NodeMap();
         map.addEdges(Files.lines(dataPath).toList());
-        System.out.println(map.countPaths2());
+        System.out.println(map.countPaths2()); // 105453
     }
 }

@@ -14,36 +14,28 @@ public class PositionCalc {
         PositionCalc main = new PositionCalc();
         List<Command> commandList = main.loadCommandData();
 
-        Position startPosition = new Position(0,0, 0);
-
-        // Initial version.
-        Position position = new Position(startPosition);
+        Position position = new Position(0,0);
         for (Command c : commandList) {
             position = c.runCommand(position);
         }
 
-        Position newPosition = commandListRunner(commandList.listIterator(), startPosition);
-
-//        Position streamPosition = commandList.stream().reduce(
-//                startPosition,
-//                command -> command.runCommand(p)
-//                );
-
-
+        AimedPosition startPosition = new AimedPosition(0,0,0);
+        AimedPosition newAimedPosition = commandListRunner(commandList.iterator(), startPosition);
         System.out.println(position);
-        System.out.println(newPosition);
         System.out.println(position.depth() * position.distance());
+        System.out.println(newAimedPosition);
+        System.out.println(newAimedPosition.depth() * newAimedPosition.distance());
     }
 
     // TODO turn lisp brain into java brain.
-    private static Position commandListRunner (Iterator<Command> commandList, final Position currentPosition) {
+    public static AimedPosition commandListRunner (Iterator<Command> commandList, final AimedPosition currentPosition) {
         if (!commandList.hasNext())
             return currentPosition;
         else
             return commandListRunner(commandList, commandList.next().runCommand(currentPosition));
     }
 
-    private List<Command> loadCommandData() throws IOException, URISyntaxException {
+    public List<Command> loadCommandData() throws IOException, URISyntaxException {
         Path absolutePath = new Utils().getLocalPath("day02");
         return Files.lines(absolutePath)
                 .map(Command::parseCommand)
@@ -74,8 +66,15 @@ public class PositionCalc {
     }
 
     public record Command(CommandType command, int value) {
-
         public Position runCommand(Position currentPosition) {
+            return switch (command) {
+                case FORWARD-> new Position(currentPosition.depth(), currentPosition.distance() + value);
+                case DOWN -> new Position(currentPosition.depth() + value, currentPosition.distance());
+                case UP -> new Position(currentPosition.depth() > value ? currentPosition.depth() - value : 0, currentPosition.distance());
+            };
+        }
+
+        public AimedPosition runCommand(AimedPosition currentPosition) {
             return switch (command) {
                 case FORWARD-> currentPosition.forward(value);
                 case DOWN -> currentPosition.aim(value);
@@ -92,22 +91,21 @@ public class PositionCalc {
         }
     }
 
-    public record Position(int depth, int distance, int aim) {
-        Position(Position p) {
-            this(p.depth, p.distance, p.aim);
-        }
+    public record Position(int depth, int distance) {
 
-        public Position forward(int value) {
-            return new Position(
+    }
+
+    public record AimedPosition(int depth, int distance, int aim) {
+        public AimedPosition forward(int value) {
+            return new AimedPosition(
                     depth + (aim * value),
                     distance + value,
                     aim);
         }
 
-        public Position aim(int value) {
-            return new Position(depth, distance, aim + value);
+        public AimedPosition aim(int value) {
+            return new AimedPosition(depth, distance, aim + value);
         }
+
     }
-
-
 }

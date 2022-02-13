@@ -15,17 +15,21 @@ class BadPhysicsSimTest {
     }
 
     @Test
-    void sim() throws Exception {
+    void sim()  {
         BadPhysicsSim.Target targetA = new BadPhysicsSim.Target(new Point(20, -5), new Point(30, -10));
-        Assertions.assertEquals(3, BadPhysicsSim.sim(7,2, targetA).get());
-        Assertions.assertEquals(0, BadPhysicsSim.sim(9,0, targetA).get());
-        Assertions.assertEquals(6, BadPhysicsSim.sim(6,3, targetA).get());
+        Assertions.assertEquals(3, BadPhysicsSim.sim(7,2, targetA).orElseThrow());
+        Assertions.assertEquals(0, BadPhysicsSim.sim(9,0, targetA).orElseThrow());
+        Assertions.assertEquals(6, BadPhysicsSim.sim(6,3, targetA).orElseThrow());
         Assertions.assertFalse(BadPhysicsSim.sim(17,-4, targetA).isPresent());
         Assertions.assertEquals(45, BadPhysicsSim.run(targetA, 0, 30).values().stream().max(Long::compare).orElse(-1L));
+    }
+
+    @Test
+    void answer() throws Exception {
         BadPhysicsSim.Target t = BadPhysicsSim.loadTarget();
         System.out.println(BadPhysicsSim.maxYPart1(t));
         Map<Point, Long> hits = BadPhysicsSim.run(t, -1000, 1000);
-        Assertions.assertEquals(8911, hits.values().stream().max(Long::compare).orElse(-1L));
-        Assertions.assertEquals(4748, hits.size());
+        Assertions.assertEquals(5253, hits.values().stream().max(Long::compare).orElse(-1L));
+        Assertions.assertEquals(1770, hits.size());
     }
 }
